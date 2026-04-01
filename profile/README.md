@@ -102,6 +102,6 @@ Continuity keeps the right parts alive in the present.
 
 ---
 
-sam@kenoticlabs.com | [kenoticlabs.com](https://kenoticlabs.com)
+sam@kenoticlabs.com | [kenoticlabs.com](https://kenoticlabs.com) | [LinkedIn](https://linkedin.com/company/kenotic-labs) | [Reddit](https://reddit.com/r/Kenoticlabs)
 
 *Proving continuity is the key to progress.*
