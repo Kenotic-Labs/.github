@@ -6,7 +6,7 @@
 
 Continuity is the layer that makes an AI system remain meaningfully connected across time instead of resetting at every interaction.
 
-Not memory in the shallow sense. Not chat history. Not a vector database. Not profile recall. Continuity is the system property that lets an AI carry forward what still matters, update it when reality changes, and reconstruct useful context later — in the right form.
+Not memory in the shallow sense. Not chat history. Not a vector database. Not profile recall. Continuity is the system property that lets an AI carry forward what still matters, update it when reality changes, and reconstruct useful context later  -  in the right form.
 
 ---
 
@@ -51,9 +51,9 @@ That is why continuity is a **layer**, not a feature.
 
 Continuity has a write path and a read path.
 
-**Write path:** The system does not dump raw text into storage. It interprets the interaction structurally — decomposing identity, events, time, emotional state, entities, intent, and logistics into durable form. A user saying *"I'm nervous because I have a Google interview next Tuesday at 3 PM and I need to leave by 1:30 because the drive is long"* contains all of those. Continuity means writing that in a way the system can live with later.
+**Write path:** The system does not dump raw text into storage. It interprets the interaction structurally  -  decomposing identity, events, time, emotional state, entities, intent, and logistics into durable form. A user saying *"I'm nervous because I have a Google interview next Tuesday at 3 PM and I need to leave by 1:30 because the drive is long"* contains all of those. Continuity means writing that in a way the system can live with later.
 
-**Read path:** The system does not retrieve semantically similar chunks. It reconstructs the current situation. If the interview moved, if the emotional state changed, if the logistics still matter — continuity gives the current picture, not a bag of old snippets.
+**Read path:** The system does not retrieve semantically similar chunks. It reconstructs the current situation. If the interview moved, if the emotional state changed, if the logistics still matter  -  continuity gives the current picture, not a bag of old snippets.
 
 **Retrieval** says: *Here are some related past things.*
 **Continuity** says: *Here is the current living state of the situation, including what changed, what still matters, and what should happen next.*
@@ -64,13 +64,13 @@ Continuity has a write path and a read path.
 
 | # | Property | What It Means |
 |---|----------|---------------|
-| 1 | **Persistence Beyond Session** | If the model shuts down, the app closes, the device restarts — continuity survives. |
+| 1 | **Persistence Beyond Session** | If the model shuts down, the app closes, the device restarts  -  continuity survives. |
 | 2 | **Update Handling** | Real life changes. The system revises what it knows without breaking consistency. |
 | 3 | **Temporal Ordering** | Not just what happened, but when, in what sequence, with what current status. |
-| 4 | **Disambiguation** | Two people, two events, two feelings — correctly separated despite overlapping vocabulary. |
+| 4 | **Disambiguation** | Two people, two events, two feelings  -  correctly separated despite overlapping vocabulary. |
 | 5 | **Reconstruction** | Not just "when is my interview?" but "summarize my current situation." |
 | 6 | **Model Independence** | The continuity layer sits below the intelligence layer. One model writes. Another reads. |
-| 7 | **Operational Usefulness** | Continuity works in clinics, libraries, service desks, robots — not just personal chat. |
+| 7 | **Operational Usefulness** | Continuity works in clinics, libraries, service desks, robots  -  not just personal chat. |
 
 ---
 
@@ -86,7 +86,7 @@ Continuity turns one-shot intelligence into ongoing presence.
 
 ### What We Publish
 
-**[ATANT v1.0](https://github.com/Kenotic-Labs/ATANT)** — An open evaluation framework for testing AI continuity. 250 narrative tests. 1,835 verification questions. 10 checkpoints. 4 compliance levels. No LLM in the evaluation loop. The first published framework for measuring whether an AI system actually has continuity.
+**[ATANT v1.0](https://github.com/Kenotic-Labs/ATANT)**  -  An open evaluation framework for testing AI continuity. 250 narrative tests. 1,835 verification questions. 10 checkpoints. 4 compliance levels. No LLM in the evaluation loop. The first published framework for measuring whether an AI system actually has continuity.
 
 ---
 
