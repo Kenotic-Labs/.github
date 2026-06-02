@@ -2,106 +2,89 @@
 
 **The continuity layer for AI systems.**
 
----
-
-Continuity is the layer that makes an AI system remain meaningfully connected across time instead of resetting at every interaction.
-
-Not memory in the shallow sense. Not chat history. Not a vector database. Not profile recall. Continuity is the system property that lets an AI carry forward what still matters, update it when reality changes, and reconstruct useful context later  -  in the right form.
+Store from Claude. Retrieve from ChatGPT. Reconstruct from Cursor. Same memory, same device.
 
 ---
 
-### Session-based AI vs. Life-based AI
+### Install
 
-A normal AI system is session-based.
-You say something. It responds. The moment ends. Whatever survives is prompt context, chat history, or some retrieved notes.
+```bash
+pip install kenotic
+```
 
-A continuity-based system is life-based.
-You say something. The system determines what matters. That thing remains alive beyond the session. If the situation changes, the system updates it. If it becomes relevant later, the system reconstructs it.
+```python
+from sdk import Kenotic
 
-That is continuity.
+k = Kenotic(user_id=0)
+k.ingest(text="I moved to Detroit in January to start Kenotic Labs.", speaker="Sam")
+k.ingest(text="My dog Kobe is a 2-year-old golden retriever who loves swimming.", speaker="Sam")
 
-Human life is not made of isolated prompts. It is made of unfinished situations, changing states, recurring concerns, relationships, timing, logistics, moods, plans, identities, and commitments. Most AI systems are structurally bad at that. Good at answering in the moment. Weak at carrying a life forward.
+result = k.retrieve(query="What is Sam's dog's name?")
+print(result.text)  # "a golden retriever named Kobe"
+```
 
-**Continuity is the missing layer between intelligence-in-the-moment and presence-over-time.**
+Or connect any AI via MCP / REST:
 
----
+```bash
+python -m mcp.http_server --port 7130
+```
 
-### What Continuity Is Not
-
-- "The AI remembers my name"
-- "The AI remembers my favorite car"
-- "The AI can search old messages"
-- "The AI has long context"
-- "The AI uses RAG"
-- "The AI stores embeddings"
-
-All of those are components. None of them, by themselves, create continuity.
-
-A database can store facts. A retriever can find related text. A long context window can keep recent material alive for a while. A profile layer can hold preferences.
-
-But continuity is the logic that answers:
-
-*What from this interaction should persist? In what form? What is still active versus resolved? What changed since last time? What matters now versus later? When should something come back? How should it come back? How do I preserve both old state and updated state without confusing them?*
-
-That is why continuity is a **layer**, not a feature.
+```bash
+curl -X POST http://localhost:7130/api/v1/retrieve \
+  -H "Content-Type: application/json" \
+  -d '{"query": "What is Sam building?"}'
+```
 
 ---
 
-### Write Path and Read Path
+### What It Does
 
-Continuity has a write path and a read path.
+Every message is decomposed into **5 structured traces** — episodic, emotional, temporal, relational, schematic — and stored in on-device SQLite.
 
-**Write path:** The system does not dump raw text into storage. It interprets the interaction structurally  -  decomposing identity, events, time, emotional state, entities, intent, and logistics into durable form. A user saying *"I'm nervous because I have a Google interview next Tuesday at 3 PM and I need to leave by 1:30 because the drive is long"* contains all of those. Continuity means writing that in a way the system can live with later.
+Retrieval is **reconstruction, not search**. The system doesn't find similar chunks. It rebuilds the answer from converging traces using MINERVA 2 resonance dynamics. No LLM in the retrieval loop. Deterministic. Sub-second.
 
-**Read path:** The system does not retrieve semantically similar chunks. It reconstructs the current situation. If the interview moved, if the emotional state changed, if the logistics still matter  -  continuity gives the current picture, not a bag of old snippets.
+---
 
-**Retrieval** says: *Here are some related past things.*
-**Continuity** says: *Here is the current living state of the situation, including what changed, what still matters, and what should happen next.*
+### How It's Different
+
+|  | Vector RAG | Mem0 | Kenotic |
+|--|-----------|------|---------|
+| Storage | Chunks + embeddings | Key-value facts | 5 structured traces |
+| Retrieval | Cosine similarity | Keyword lookup | Multi-dimensional resonance |
+| LLM in loop | Yes (reranking) | Yes (extraction) | No |
+| Update handling | Overwrite | Overwrite | Supersession chain |
+| Temporal reasoning | None | None | Built-in |
+| Emotional state | None | None | Built-in |
+| Model independence | No | Partial | Full (store on Claude, read from GPT) |
+| Runs on | Cloud | Cloud / local | 100% on-device |
+
+---
+
+### Repos
+
+| Repo | What |
+|------|------|
+| [**reconstruct**](https://github.com/Kenotic-Labs/reconstruct) | DTCM engine + MCP server + REST API. The product. |
+| [**ATANT**](https://github.com/Kenotic-Labs/ATANT) | Evaluation framework for AI continuity. 250 stories, 1835 questions. |
+| [**continuity-layer**](https://github.com/Kenotic-Labs/continuity-layer) | Research paper. arXiv:2604.17273 |
+| [**kenoticlabs.com**](https://github.com/Kenotic-Labs/kenoticlabs.com) | Website source. |
 
 ---
 
 ### The 7 Properties of Continuity
 
-| # | Property | What It Means |
-|---|----------|---------------|
-| 1 | **Persistence Beyond Session** | If the model shuts down, the app closes, the device restarts  -  continuity survives. |
-| 2 | **Update Handling** | Real life changes. The system revises what it knows without breaking consistency. |
-| 3 | **Temporal Ordering** | Not just what happened, but when, in what sequence, with what current status. |
-| 4 | **Disambiguation** | Two people, two events, two feelings  -  correctly separated despite overlapping vocabulary. |
-| 5 | **Reconstruction** | Not just "when is my interview?" but "summarize my current situation." |
-| 6 | **Model Independence** | The continuity layer sits below the intelligence layer. One model writes. Another reads. |
-| 7 | **Operational Usefulness** | Continuity works in clinics, libraries, service desks, robots  -  not just personal chat. |
+1. **Persistence** — Survives restarts, app closes, device changes.
+2. **Update Handling** — Reality changes. Memory updates without breaking history.
+3. **Temporal Ordering** — When, in what sequence, with what current status.
+4. **Disambiguation** — Two people, two events, two feelings — correctly separated.
+5. **Reconstruction** — Not "search results." The current living state.
+6. **Model Independence** — One model writes. Another reads. The layer is below the model.
+7. **Operational Usefulness** — Works in clinics, libraries, robots — not just chat.
 
 ---
 
-### Why This Matters for Agents
+### Links
 
-Agents without continuity are brittle. They complete tasks but do not maintain coherent state over time. They do not preserve ongoing human context. They do not know what remains unfinished, what has been updated, what should be revisited, or what should stay quiet.
+[kenoticlabs.com](https://kenoticlabs.com) | [Docs](https://github.com/Kenotic-Labs/reconstruct/tree/master/docs) | [API Quickstart](https://github.com/Kenotic-Labs/reconstruct/blob/master/docs/api-quickstart.md) | sam@kenoticlabs.com
 
-As AI systems become more persistent, proactive, and embedded, the need for continuity gets stronger, not weaker.
-
-Continuity turns one-shot intelligence into ongoing presence.
-
----
-
-### What We Publish
-
-**[ATANT v1.0](https://github.com/Kenotic-Labs/ATANT)**  -  An open evaluation framework for testing AI continuity. 250 narrative tests. 1,835 verification questions. 10 checkpoints. 4 compliance levels. No LLM in the evaluation loop. The first published framework for measuring whether an AI system actually has continuity.
-
----
-
-### The Thesis
-
-Most AI today is intelligent per session.
-Continuity is what makes AI coherent across life.
-
-Memory stores the past.
-Continuity keeps the right parts alive in the present.
-
-**The continuity layer is the missing layer between AI interaction and AI relationship.**
-
----
-
-sam@kenoticlabs.com | [kenoticlabs.com](https://kenoticlabs.com) | [LinkedIn](https://linkedin.com/company/kenotic-labs) | [Reddit](https://reddit.com/r/Kenoticlabs)
-
-*Proving continuity is the key to progress.*
+[LinkedIn](https://linkedin.com/company/kenotic-labs) | [Reddit](https://reddit.com/r/Kenoticlabs)
